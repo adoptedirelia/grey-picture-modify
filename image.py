@@ -33,5 +33,5 @@ def pic_conv(pic_path):
     cv2.imwrite(outpath2,out)
 
 if __name__ == '__main__':
-    pic_conv('autumn.jpg')
+    pic_conv('irelia.jpg')
 
