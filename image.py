@@ -2,15 +2,21 @@ import torch
 import cv2
 import numpy as np
 import os
-def pic_conv(pic_path):
+out_path = './pic_out'
+input_path ='autumn.jpg'
+img_name='autumn'
+def pic_conv(pic_path,layer=0,grey=True):
     pic = cv2.imread(pic_path)
-    pic = pic.sum(axis=2)//3
+    if grey:
+        pic = pic.sum(axis=2)//3
+    else:
+        pic = pic[:,:,layer]
     pic_name = pic_path.split('.')[0]
-    if not os.path.exists('./pic_out'):
-        os.makedirs('./pic_out')
-        print('make dir pic_out')
-    outpath1 = f'./pic_out/{pic_name}_before.jpg'
-    outpath2 = f'./pic_out/{pic_name}_after.jpg'
+    if not os.path.exists(f'{out_path}'):
+        os.makedirs(f'{out_path}')
+        print('make dir ~')
+    outpath1 = f'{out_path}/{pic_name}_before{layer}.jpg'
+    outpath2 = f'{out_path}/{pic_name}_after{layer}.jpg'
     cv2.imwrite(outpath1,pic)
     print(pic.shape)
     r = np.zeros(256)
@@ -32,6 +38,24 @@ def pic_conv(pic_path):
 
     cv2.imwrite(outpath2,out)
 
+def pic_mix(img_name):
+    pic1 = cv2.imread(f'{out_path}/{img_name}_after0.jpg')
+    pic2 = cv2.imread(f'{out_path}/{img_name}_after1.jpg')
+    pic3 = cv2.imread(f'{out_path}/{img_name}_after2.jpg')
+    pic1 = pic1.sum(axis=2)//3
+    pic2 = pic2.sum(axis=2)//3
+    pic3 = pic3.sum(axis=2)//3
+    n,m = pic1.shape
+    out = np.zeros(shape=(n,m,3))
+    out[:,:,0]=pic1
+    out[:,:,1]=pic2
+    out[:,:,2]=pic3
+    cv2.imwrite(f'{out_path}/{input_path}_colorful.jpg',out)
+
 if __name__ == '__main__':
-    pic_conv('irelia.jpg')
+    pic_conv(input_path,0,False)
+    pic_conv(input_path,1,False)
+    pic_conv(input_path,2,False)    
+    pic_mix(img_name)
+    
 
