@@ -3,8 +3,8 @@ import cv2
 import numpy as np
 import os
 out_path = './pic_out'
-input_path ='autumn.jpg'
-img_name='autumn'
+input_path ='irelia.jpg'
+img_name='irelia'
 def pic_conv(pic_path,layer=0,grey=True):
     pic = cv2.imread(pic_path)
     if grey:
