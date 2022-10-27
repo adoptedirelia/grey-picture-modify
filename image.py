@@ -57,5 +57,5 @@ if __name__ == '__main__':
     pic_conv(input_path,1,False)
     pic_conv(input_path,2,False)    
     pic_mix(img_name)
-    
+
 
