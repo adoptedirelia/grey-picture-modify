@@ -1,2 +1,3 @@
-# this is about a picture
-if it is helpful to you, don't forget to star me,it is really important, thank you very much!  
+# do something to your picture?!
+there you can read bmp files and you can know the parameters of the bmp files
+check it out in utils.py!
