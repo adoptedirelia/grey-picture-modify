@@ -74,8 +74,8 @@ def pic_conv_grey(pic,bit,pic_name='out',show = False):
     if(bit==24):
         img_grey = 0.299*pic[:,:,0] + 0.587*pic[:,:,1] + 0.114*pic[:,:,2]
     img_grey= np.rint(img_grey) # 四舍五入取整 
-    img_grey = img_grey.astype(np.int16)
-
+    img_grey = img_grey.astype(np.uint8)
+    pic = pic.astype(np.uint8)
     r = np.zeros(256)
     width,height,layer  = pic.shape
 
@@ -96,16 +96,61 @@ def pic_conv_grey(pic,bit,pic_name='out',show = False):
     for x in range(width):
         for y in range(height):
             img_res[x][y] = s[img_grey[x][y]]
+
+    img_res = combine(img_res)
+    img_res = img_res.astype(np.uint8)
+    img_bgr = cv2.cvtColor(img_res,cv2.COLOR_RGB2BGR)
+    cv2.imwrite(f'./pic_out/{pic_name}.jpg',img_bgr)
     
-    cv2.imwrite(f'./pic_out/{pic_name}.jpg',img_res)
     if show:
         plt.imshow(img_res,'gray')
         plt.show()
+    return img_res[:,:,0]
 
+def combine(pic):
+    n,m = pic.shape
+    res = np.zeros((n,m,3))
+    res[:,:,0] = pic
+    res[:,:,1] = pic
+    res[:,:,2] = pic
+    return res
+
+def pic_conv_rgb(pic,pic_name='out',show=False):
+    n,m,layer = pic.shape
+
+    pic_R = pic[:,:,0]
+    pic_G = pic[:,:,1]
+    pic_B = pic[:,:,2]
+
+    R = combine(pic_R)
+    G = combine(pic_G)
+    B = combine(pic_B)
+
+    
+
+    conv_R = pic_conv_grey(R,8,f'{pic_name}_red')
+    conv_G = pic_conv_grey(G,8,f'{pic_name}_green')
+    conv_B = pic_conv_grey(B,8,f'{pic_name}_blue')
+
+    img_res = np.zeros((n,m,3))
+
+    img_res[:,:,0] = conv_R
+    img_res[:,:,1] = conv_G
+    img_res[:,:,2] = conv_B
+    img_res = img_res.astype(np.uint8)
+    img_bgr = cv2.cvtColor(img_res,cv2.COLOR_RGB2BGR)
+    cv2.imwrite(f'./pic_out/{pic_name}.jpg',img_bgr)
+    if show:
+        plt.imshow(img_res)
+        plt.show()
+    return img_res
 
 if __name__ == '__main__':
     # 测试用例
     img,bit = readBMP('Boy.bmp')
-    pic_conv_grey(img,show=True)
+    pic_conv_grey(img,bit)
+    pic = plt.imread('./irelia.jpg')
+    pic_conv_rgb(pic)
+    
     
 
