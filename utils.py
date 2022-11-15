@@ -1,16 +1,14 @@
-from pickle import FALSE
-from typing import Tuple
 import numpy as np
 import cv2
 import struct
 import matplotlib.pyplot as plt
 import os
 
-
+# cv2读取图片是BGR，但是plt颜色接口为RGB
 def readBMP(file_dir,show=False):
     
     f = open(file_dir,'rb')
-    print(f'图片名字{file_dir}，正在读取')
+    print(f'图片{file_dir}，正在读取')
     #读取位图文件头 14 Byte
     Type = f.read(2)  #类型
     Size = f.read(4) #文件大小
@@ -66,11 +64,15 @@ def readBMP(file_dir,show=False):
         plt.imshow(img)
         plt.show()
     f.close()
-    return img
 
-def pic_conv_grey(pic,show = False):
-    img_grey = 0.299*pic[:,:,0] + 0.587*pic[:,:,1] + 0.114*pic[:,:,2]
-    img = pic
+    
+    return img,Bit
+
+def pic_conv_grey(pic,bit,pic_name='out',show = False):
+    if(bit==8):
+        img_grey = pic[:,:,0]   #灰色
+    if(bit==24):
+        img_grey = 0.299*pic[:,:,0] + 0.587*pic[:,:,1] + 0.114*pic[:,:,2]
     img_grey= np.rint(img_grey) # 四舍五入取整 
     img_grey = img_grey.astype(np.int16)
 
@@ -94,14 +96,16 @@ def pic_conv_grey(pic,show = False):
     for x in range(width):
         for y in range(height):
             img_res[x][y] = s[img_grey[x][y]]
-
-    cv2.imwrite('./pic_out.jpg',img_res)
+    
+    cv2.imwrite(f'./pic_out/{pic_name}.jpg',img_res)
     if show:
         plt.imshow(img_res,'gray')
         plt.show()
 
-if __name__ == '__main__':
-    img = readBMP('Boy.bmp')
-    pic_conv_grey(img)
 
+if __name__ == '__main__':
+    # 测试用例
+    img,bit = readBMP('Boy.bmp')
+    pic_conv_grey(img,show=True)
+    
 

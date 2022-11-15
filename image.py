@@ -2,6 +2,7 @@ import torch
 import cv2
 import numpy as np
 import os
+import matplotlib.pyplot as plt
 out_path = './pic_out'
 input_path ='irelia.jpg'
 img_name='irelia'
@@ -79,6 +80,7 @@ def pic_mix(img_name):
     cv2.imwrite(f'{out_path}/{input_path}_colorful.jpg',out)
 
 if __name__ == '__main__':
-    for i in range(1):
-        print(i)
-
+    pic = cv2.imread('./irelia.jpg')
+    pic = cv2.cvtColor(pic,cv2.COLOR_BGR2RGB)
+    plt.imshow(pic)
+    plt.show()
