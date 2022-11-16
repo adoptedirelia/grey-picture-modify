@@ -69,10 +69,11 @@ def readBMP(file_dir,show=False):
     return img,Bit
 
 def pic_conv_grey(pic,bit,pic_name='out',show = False):
+    pp = pic.copy()
     if(bit==8):
-        img_grey = pic[:,:,0]   #灰色
+        img_grey = pp[:,:,0]   #灰色
     if(bit==24):
-        img_grey = 0.299*pic[:,:,0] + 0.587*pic[:,:,1] + 0.114*pic[:,:,2]
+        img_grey = 0.299*pp[:,:,0] + 0.587*pp[:,:,1] + 0.114*pp[:,:,2]
     img_grey= np.rint(img_grey) # 四舍五入取整 
     img_grey = img_grey.astype(np.uint8)
     pic = pic.astype(np.uint8)
@@ -105,7 +106,7 @@ def pic_conv_grey(pic,bit,pic_name='out',show = False):
     if show:
         plt.imshow(img_res,'gray')
         plt.show()
-    return img_res[:,:,0]
+    return img_res
 
 def combine(pic):
     n,m = pic.shape
@@ -128,9 +129,9 @@ def pic_conv_rgb(pic,pic_name='out',show=False):
 
     
 
-    conv_R = pic_conv_grey(R,8,f'{pic_name}_red')
-    conv_G = pic_conv_grey(G,8,f'{pic_name}_green')
-    conv_B = pic_conv_grey(B,8,f'{pic_name}_blue')
+    conv_R = pic_conv_grey(R,8,f'{pic_name}_red')[:,:,0]
+    conv_G = pic_conv_grey(G,8,f'{pic_name}_green')[:,:,0]
+    conv_B = pic_conv_grey(B,8,f'{pic_name}_blue')[:,:,0]
 
     img_res = np.zeros((n,m,3))
 
@@ -145,14 +146,78 @@ def pic_conv_rgb(pic,pic_name='out',show=False):
         plt.show()
     return img_res
 
+def pixel_collect(pic,x,y,kernel):
+    n,m = pic.shape
+    
+    lst = []
+    kernel = (int)((kernel-1)/2)
+    left = x-kernel if x-kernel>=0 else 0
+    right = x+kernel if x+kernel<m else m-1
+    top = y-kernel if y-kernel>=0 else 0
+    bottom = y+kernel if y+kernel<n else n-1
+    for i in range(left,right+1):
+        for j in range(top,bottom+1):
+            pixel = pic[i][j]
+            lst.append(pixel)
+            
+    return np.array(lst)
 
+def Media_filter(pic,kernel=3,pic_name='out',show=False):
+    n,m,layer = pic.shape
+    img_res = np.zeros((n,m,3))
+    pp = pic.copy() #深copy
+    img_r,img_g,img_b = pp[:,:,0],pp[:,:,1],pp[:,:,2]
+
+    imgs = [img_r,img_g,img_b]
+
+    for img in imgs:
+        width,height = img.shape
+        for i in range(width):
+            for j in range(height):
+                lst = pixel_collect(img,i,j,kernel)
+                ans = np.median(lst)
+                img[i][j]=ans
+                
+    img_res[:,:,0],img_res[:,:,1],img_res[:,:,2] = img_r,img_g,img_b
+    img_res = img_res.astype(np.uint8)
+    img_bgr = cv2.cvtColor(img_res,cv2.COLOR_RGB2BGR)
+    cv2.imwrite(f'./pic_out/{pic_name}.jpg',img_bgr)
+    if show:
+        plt.imshow(img_res)
+        plt.show()
+
+    return img_res
+
+def Mean_filter(pic,kernel=3,pic_name='out',show=False):
+    n,m,layer = pic.shape
+    img_res = np.zeros((n,m,3))
+    pp = pic.copy() #深copy
+    img_r,img_g,img_b = pp[:,:,0],pp[:,:,1],pp[:,:,2]
+
+    imgs = [img_r,img_g,img_b]
+
+    for img in imgs:
+        width,height = img.shape
+        for i in range(width):
+            for j in range(height):
+                lst = pixel_collect(img,i,j,kernel)
+                ans = np.mean(lst)
+                img[i][j]=ans
+                
+    img_res[:,:,0],img_res[:,:,1],img_res[:,:,2] = img_r,img_g,img_b
+    img_res = img_res.astype(np.uint8)
+    img_bgr = cv2.cvtColor(img_res,cv2.COLOR_RGB2BGR)
+    cv2.imwrite(f'./pic_out/{pic_name}.jpg',img_bgr)
+    if show:
+        plt.imshow(img_res)
+        plt.show()
+    return img_res
 
 if __name__ == '__main__':
     # 测试用例
-    img,bit = readBMP('Boy.bmp')
-    pic_conv_grey(img,bit)
-    pic = plt.imread('./irelia.jpg')
-    pic_conv_rgb(pic)
+    img,bit = readBMP('./pic_test/Panda(jiaoyan).bmp')
+    Mean_filter(img,show=True)
+
     
     
 

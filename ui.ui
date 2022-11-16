@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1000</width>
+    <height>700</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QPushButton" name="grey_conv_button">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>480</y>
+      <width>200</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>grey_conv</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="rgb_conv_button">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>540</y>
+      <width>200</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>rgb_conv</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Media_filter_button">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>480</y>
+      <width>200</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Media_filter</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Mean_filter_button">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>540</y>
+      <width>200</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Mean_filter</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>600</y>
+      <width>200</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>选择一张图片</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="origin_img">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>10</y>
+      <width>450</width>
+      <height>450</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>原图</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="processed_img">
+    <property name="geometry">
+     <rect>
+      <x>530</x>
+      <y>10</y>
+      <width>450</width>
+      <height>450</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>修改后</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Adopted_Irelia">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>600</y>
+      <width>200</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Adopted_Irelia</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="AI">
+    <property name="geometry">
+     <rect>
+      <x>510</x>
+      <y>500</y>
+      <width>200</width>
+      <height>115</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="AI_2">
+    <property name="geometry">
+     <rect>
+      <x>750</x>
+      <y>500</y>
+      <width>200</width>
+      <height>115</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1000</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuAdopted_Irelia">
+    <property name="title">
+     <string>Adopted Irelia</string>
+    </property>
+    <addaction name="action"/>
+   </widget>
+   <addaction name="menuAdopted_Irelia"/>
+  </widget>
+  <action name="action">
+   <property name="text">
+    <string>~~~~~~`</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

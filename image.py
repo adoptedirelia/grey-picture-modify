@@ -80,7 +80,8 @@ def pic_mix(img_name):
     cv2.imwrite(f'{out_path}/{input_path}_colorful.jpg',out)
 
 if __name__ == '__main__':
-    pic = cv2.imread('./irelia.jpg')
-    pic = cv2.cvtColor(pic,cv2.COLOR_BGR2RGB)
-    plt.imshow(pic)
-    plt.show()
+    a = np.ones((2,2))
+    b = a
+    b = b - np.ones((2,2))
+    print(b)
+    print(a)
