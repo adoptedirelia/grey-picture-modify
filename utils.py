@@ -145,6 +145,8 @@ def pic_conv_rgb(pic,pic_name='out',show=False):
         plt.show()
     return img_res
 
+
+
 if __name__ == '__main__':
     # 测试用例
     img,bit = readBMP('Boy.bmp')
