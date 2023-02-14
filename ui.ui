@@ -128,9 +128,9 @@
     <property name="geometry">
      <rect>
       <x>510</x>
-      <y>500</y>
+      <y>470</y>
       <width>200</width>
-      <height>115</height>
+      <height>150</height>
      </rect>
     </property>
     <property name="text">
@@ -141,13 +141,39 @@
     <property name="geometry">
      <rect>
       <x>750</x>
-      <y>500</y>
+      <y>470</y>
       <width>200</width>
-      <height>115</height>
+      <height>150</height>
      </rect>
     </property>
     <property name="text">
      <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>570</x>
+      <y>630</y>
+      <width>81</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>修改前直方图</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>810</x>
+      <y>630</y>
+      <width>81</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>修改后直方图</string>
     </property>
    </widget>
   </widget>

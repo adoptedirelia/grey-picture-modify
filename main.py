@@ -6,6 +6,8 @@ import utils
 import cv2
 import myui
 import numpy as np
+import matplotlib.pyplot as plt
+
 
 class AppWindow(QMainWindow,myui.Ui_MainWindow):
     def __init__(self,parent=None):
@@ -13,6 +15,7 @@ class AppWindow(QMainWindow,myui.Ui_MainWindow):
         self.setupUi(self)
         
         self.origin_pic = ""
+        self.result_pic = ""
         self.bit = 0
         self.type=""
         self.grey_conv_button.clicked.connect(self.grey_conv)
@@ -21,6 +24,10 @@ class AppWindow(QMainWindow,myui.Ui_MainWindow):
         self.Media_filter_button.clicked.connect(self.Media_filter)
         self.pushButton.clicked.connect(self.choose_pic)
         self.Adopted_Irelia.clicked.connect(self.show_me)
+        self.origin_img.setStyleSheet("border: 2px solid black")
+        self.processed_img.setStyleSheet("border: 2px solid black")
+        self.AI.setStyleSheet("border: 1px solid black")
+        self.AI_2.setStyleSheet("border: 1px solid black")
 
     def choose_pic(self):
         fileName1, filetype = QFileDialog.getOpenFileName(self,
@@ -50,11 +57,11 @@ class AppWindow(QMainWindow,myui.Ui_MainWindow):
         if position==0 :
             self.origin_img.setPixmap(pix)
             self.origin_img.setScaledContents(True)
-            self.origin_img.setStyleSheet("border: 2px solid black")
+            
         if position==1 :
             self.processed_img.setPixmap(pix)
             self.processed_img.setScaledContents(True)
-            self.processed_img.setStyleSheet("border: 2px solid black")
+            
         if position==2:
             self.AI.setPixmap(pix)
             self.AI.setScaledContents(True)
@@ -64,28 +71,59 @@ class AppWindow(QMainWindow,myui.Ui_MainWindow):
             self.AI_2.setScaledContents(True)
 
     def show_me(self):
+
         img = cv2.imread('./irelia.jpg')
         img = cv2.cvtColor(img,cv2.COLOR_BGR2RGB)
         img2 = cv2.imread('./irelia_colorful.jpg')
         img2 = cv2.cvtColor(img2,cv2.COLOR_BGR2RGB)
-        self.show_pic(img,2)
-        self.show_pic(img2,3)
+        a1 = self.origin_pic
+        a2 = self.result_pic
+        plt.hist(a1[0].ravel(),256)
+        plt.savefig('./pic_out/hist_before.jpg')
+        pic1 = plt.imread('./pic_out/hist_before.jpg')     
+        self.show_pic(pic1,2)
+        plt.close()
+        plt.hist(a2[0].ravel(),256)
+        plt.savefig('./pic_out/hist_after.jpg')
+        pic2 = plt.imread('./pic_out/hist_after.jpg')  
+        self.show_pic(pic2,3)
+        plt.close()
 
 
     def grey_conv(self):
+        if(self.origin_pic==""):
+            fileName1 = './pic_test/Boy.bmp'
+            self.origin_pic,self.bit = utils.readBMP(fileName1)
+            self.show_pic(self.origin_pic,0)
         grey = utils.pic_conv_grey(self.origin_pic,self.bit,'grey_conv')
+        self.result_pic = grey
         self.show_pic(grey,1)
 
     def rgb_conv(self):
+        if(self.origin_pic==""):
+            fileName1 = './pic_test/Boy.bmp'
+            self.origin_pic,self.bit = utils.readBMP(fileName1)
+            self.show_pic(self.origin_pic,0)
         rgb = utils.pic_conv_rgb(self.origin_pic,'rgb_conv')
+        self.result_pic = rgb
         self.show_pic(rgb,1)
 
     def Media_filter(self):
+        if(self.origin_pic==""):
+            fileName1 = './pic_test/Boy.bmp'
+            self.origin_pic,self.bit = utils.readBMP(fileName1)
+            self.show_pic(self.origin_pic,0)
         Media_f = utils.Media_filter(self.origin_pic,pic_name='Media_filter')
+        self.result_pic = Media_f
         self.show_pic(Media_f,1)
 
     def Mean_filter(self):
+        if(self.origin_pic==""):
+            fileName1 = './pic_test/Boy.bmp'
+            self.origin_pic,self.bit = utils.readBMP(fileName1)
+            self.show_pic(self.origin_pic,0)
         Mean_f = utils.Mean_filter(self.origin_pic,pic_name='Mean_filter')
+        self.result_pic = Mean_f
         self.show_pic(Mean_f,1)
 
 

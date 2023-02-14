@@ -3,7 +3,7 @@ import cv2
 import struct
 import matplotlib.pyplot as plt
 import os
-
+import pylab
 # cv2读取图片是BGR，但是plt颜色接口为RGB
 def readBMP(file_dir,show=False):
     
@@ -215,8 +215,13 @@ def Mean_filter(pic,kernel=3,pic_name='out',show=False):
 
 if __name__ == '__main__':
     # 测试用例
-    img,bit = readBMP('./pic_test/Panda(jiaoyan).bmp')
-    Mean_filter(img,show=True)
+    a = cv2.imread('./irelia.jpg',0)
+    
+    hist = cv2.calcHist([a],[0],None,[256],[0,256])
+    plt.hist(a.ravel(),256)
+    plt.show()
+    #img,bit = readBMP('./pic_test/Panda(jiaoyan).bmp')
+    #Mean_filter(img,show=True)
 
     
     
